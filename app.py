@@ -73,10 +73,11 @@ def handle_message(event):
                     TextSendMessage(text=f'CoinGeckoAPI Error')
                 )
         else:
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=msg)
-            )
+            # line_bot_api.reply_message(
+            #     event.reply_token,
+            #     TextSendMessage(text=msg)
+            # )
+            pass
 
 
 if __name__ == "__main__":
