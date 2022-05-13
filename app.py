@@ -25,6 +25,10 @@ def now_prices(token: Dict):
        key_name = k
     return {'usd': token.get(key_name).get('usd'), 'twd': token.get(key_name).get('twd'),}
 
+@app.route("/", methods=['GET'])
+def ping():
+    return 'pong'
+
 # handle request from "/callback"
 @app.route("/callback", methods=['POST'])
 def callback():
