@@ -45,7 +45,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     msg = event.message.text
-    
+    msg = msg.replace(' ', '')
     if event.source.user_id != '':
         mintList = msg.split(',')
         if msg.lower() == 'gst':
