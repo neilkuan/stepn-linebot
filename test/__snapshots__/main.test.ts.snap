@@ -1,0 +1,750 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot 1`] = `
+Object {
+  "Outputs": Object {
+    "linebotbotsvcLoadBalancerDNS8259196D": Object {
+      "Value": Object {
+        "Fn::GetAtt": Array [
+          "linebotbotsvcLB688EB348",
+          "DNSName",
+        ],
+      },
+    },
+    "linebotbotsvcServiceURLF0DAC68D": Object {
+      "Value": Object {
+        "Fn::Join": Array [
+          "",
+          Array [
+            "https://",
+            Object {
+              "Fn::GetAtt": Array [
+                "linebotbotsvcLB688EB348",
+                "DNSName",
+              ],
+            },
+          ],
+        ],
+      },
+    },
+  },
+  "Parameters": Object {
+    "BootstrapVersion": Object {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": Object {
+    "linebotbotsvcLB688EB348": Object {
+      "DependsOn": Array [
+        "linebotcluster0FD85826",
+        "linebotcluster9F571DF5",
+        "linebotnewVpcLineBotPublicSubnetSubnet1DefaultRoute7C02F702",
+        "linebotnewVpcLineBotPublicSubnetSubnet2DefaultRouteA41C2083",
+      ],
+      "Properties": Object {
+        "LoadBalancerAttributes": Array [
+          Object {
+            "Key": "deletion_protection.enabled",
+            "Value": "false",
+          },
+        ],
+        "Scheme": "internet-facing",
+        "SecurityGroups": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "linebotbotsvcLBSecurityGroupF75AD92A",
+              "GroupId",
+            ],
+          },
+        ],
+        "Subnets": Array [
+          Object {
+            "Ref": "linebotnewVpcLineBotPublicSubnetSubnet1Subnet34375F40",
+          },
+          Object {
+            "Ref": "linebotnewVpcLineBotPublicSubnetSubnet2Subnet6DF96531",
+          },
+        ],
+        "Type": "application",
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+    },
+    "linebotbotsvcLBPublicListener69B9A67A": Object {
+      "DependsOn": Array [
+        "linebotcluster0FD85826",
+        "linebotcluster9F571DF5",
+      ],
+      "Properties": Object {
+        "Certificates": Array [
+          Object {
+            "CertificateArn": Object {
+              "Ref": "linebotstepnlinecaED0CDF09",
+            },
+          },
+        ],
+        "DefaultActions": Array [
+          Object {
+            "TargetGroupArn": Object {
+              "Ref": "linebotbotsvcLBPublicListenerECSGroupCC0CB419",
+            },
+            "Type": "forward",
+          },
+        ],
+        "LoadBalancerArn": Object {
+          "Ref": "linebotbotsvcLB688EB348",
+        },
+        "Port": 443,
+        "Protocol": "HTTPS",
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+    },
+    "linebotbotsvcLBPublicListenerECSGroupCC0CB419": Object {
+      "DependsOn": Array [
+        "linebotcluster0FD85826",
+        "linebotcluster9F571DF5",
+      ],
+      "Properties": Object {
+        "Port": 80,
+        "Protocol": "HTTP",
+        "TargetGroupAttributes": Array [
+          Object {
+            "Key": "stickiness.enabled",
+            "Value": "false",
+          },
+        ],
+        "TargetType": "ip",
+        "VpcId": Object {
+          "Ref": "linebotnewVpc05AFBD53",
+        },
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+    },
+    "linebotbotsvcLBPublicRedirectListener4C08B8BA": Object {
+      "DependsOn": Array [
+        "linebotcluster0FD85826",
+        "linebotcluster9F571DF5",
+      ],
+      "Properties": Object {
+        "DefaultActions": Array [
+          Object {
+            "RedirectConfig": Object {
+              "Port": "443",
+              "Protocol": "HTTPS",
+              "StatusCode": "HTTP_301",
+            },
+            "Type": "redirect",
+          },
+        ],
+        "LoadBalancerArn": Object {
+          "Ref": "linebotbotsvcLB688EB348",
+        },
+        "Port": 80,
+        "Protocol": "HTTP",
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+    },
+    "linebotbotsvcLBSecurityGroupF75AD92A": Object {
+      "DependsOn": Array [
+        "linebotcluster0FD85826",
+        "linebotcluster9F571DF5",
+      ],
+      "Properties": Object {
+        "GroupDescription": "Automatically created Security Group for ELB testlinebotbotsvcLB24F65E48",
+        "SecurityGroupIngress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow from anyone on port 443",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow from anyone on port 80",
+            "FromPort": 80,
+            "IpProtocol": "tcp",
+            "ToPort": 80,
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "linebotnewVpc05AFBD53",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "linebotbotsvcLBSecurityGrouptotestlinebotbotsvcServiceSecurityGroup19ECB7B350008D93AF3A": Object {
+      "DependsOn": Array [
+        "linebotcluster0FD85826",
+        "linebotcluster9F571DF5",
+      ],
+      "Properties": Object {
+        "Description": "Load balancer to target",
+        "DestinationSecurityGroupId": Object {
+          "Fn::GetAtt": Array [
+            "linebotbotsvcServiceSecurityGroup32EEDBA2",
+            "GroupId",
+          ],
+        },
+        "FromPort": 5000,
+        "GroupId": Object {
+          "Fn::GetAtt": Array [
+            "linebotbotsvcLBSecurityGroupF75AD92A",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "ToPort": 5000,
+      },
+      "Type": "AWS::EC2::SecurityGroupEgress",
+    },
+    "linebotbotsvcServiceDA11F768": Object {
+      "DependsOn": Array [
+        "linebotbotsvcLBPublicListenerECSGroupCC0CB419",
+        "linebotbotsvcLBPublicListener69B9A67A",
+        "linebotcluster0FD85826",
+        "linebotcluster9F571DF5",
+      ],
+      "Properties": Object {
+        "CapacityProviderStrategy": Array [
+          Object {
+            "Base": 1,
+            "CapacityProvider": "FARGATE_SPOT",
+            "Weight": 1,
+          },
+        ],
+        "Cluster": Object {
+          "Ref": "linebotcluster9F571DF5",
+        },
+        "DeploymentConfiguration": Object {
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 50,
+        },
+        "EnableECSManagedTags": false,
+        "HealthCheckGracePeriodSeconds": 60,
+        "LoadBalancers": Array [
+          Object {
+            "ContainerName": "linebot",
+            "ContainerPort": 5000,
+            "TargetGroupArn": Object {
+              "Ref": "linebotbotsvcLBPublicListenerECSGroupCC0CB419",
+            },
+          },
+        ],
+        "NetworkConfiguration": Object {
+          "AwsvpcConfiguration": Object {
+            "AssignPublicIp": "ENABLED",
+            "SecurityGroups": Array [
+              Object {
+                "Fn::GetAtt": Array [
+                  "linebotbotsvcServiceSecurityGroup32EEDBA2",
+                  "GroupId",
+                ],
+              },
+            ],
+            "Subnets": Array [
+              Object {
+                "Ref": "linebotnewVpcLineBotPublicSubnetSubnet1Subnet34375F40",
+              },
+              Object {
+                "Ref": "linebotnewVpcLineBotPublicSubnetSubnet2Subnet6DF96531",
+              },
+            ],
+          },
+        },
+        "PlatformVersion": "LATEST",
+        "ServiceName": "line-bot",
+        "TaskDefinition": Object {
+          "Ref": "linebottasksB59B746D",
+        },
+      },
+      "Type": "AWS::ECS::Service",
+    },
+    "linebotbotsvcServiceSecurityGroup32EEDBA2": Object {
+      "DependsOn": Array [
+        "linebotcluster0FD85826",
+        "linebotcluster9F571DF5",
+      ],
+      "Properties": Object {
+        "GroupDescription": "test/linebot/botsvc/Service/SecurityGroup",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "linebotnewVpc05AFBD53",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "linebotbotsvcServiceSecurityGroupfromtestlinebotbotsvcLBSecurityGroup2B80E4B3500000C1BE53": Object {
+      "DependsOn": Array [
+        "linebotcluster0FD85826",
+        "linebotcluster9F571DF5",
+      ],
+      "Properties": Object {
+        "Description": "Load balancer to target",
+        "FromPort": 5000,
+        "GroupId": Object {
+          "Fn::GetAtt": Array [
+            "linebotbotsvcServiceSecurityGroup32EEDBA2",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "SourceSecurityGroupId": Object {
+          "Fn::GetAtt": Array [
+            "linebotbotsvcLBSecurityGroupF75AD92A",
+            "GroupId",
+          ],
+        },
+        "ToPort": 5000,
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
+    },
+    "linebotcluster0FD85826": Object {
+      "Properties": Object {
+        "CapacityProviders": Array [
+          "FARGATE",
+          "FARGATE_SPOT",
+        ],
+        "Cluster": Object {
+          "Ref": "linebotcluster9F571DF5",
+        },
+        "DefaultCapacityProviderStrategy": Array [],
+      },
+      "Type": "AWS::ECS::ClusterCapacityProviderAssociations",
+    },
+    "linebotcluster9F571DF5": Object {
+      "Properties": Object {
+        "ClusterName": "LineBot",
+      },
+      "Type": "AWS::ECS::Cluster",
+    },
+    "linebotnewVpc05AFBD53": Object {
+      "Properties": Object {
+        "CidrBlock": "10.0.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "default",
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "test/linebot/newVpc",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::VPC",
+    },
+    "linebotnewVpcIGWF5342BAA": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "test/linebot/newVpc",
+          },
+        ],
+      },
+      "Type": "AWS::EC2::InternetGateway",
+    },
+    "linebotnewVpcLineBotPublicSubnetSubnet1DefaultRoute7C02F702": Object {
+      "DependsOn": Array [
+        "linebotnewVpcVPCGW2A301A36",
+      ],
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": Object {
+          "Ref": "linebotnewVpcIGWF5342BAA",
+        },
+        "RouteTableId": Object {
+          "Ref": "linebotnewVpcLineBotPublicSubnetSubnet1RouteTable2E6F3CEE",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "linebotnewVpcLineBotPublicSubnetSubnet1RouteTable2E6F3CEE": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "test/linebot/newVpc/LineBot-Public-SubnetSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "linebotnewVpc05AFBD53",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "linebotnewVpcLineBotPublicSubnetSubnet1RouteTableAssociationD42334A8": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "linebotnewVpcLineBotPublicSubnetSubnet1RouteTable2E6F3CEE",
+        },
+        "SubnetId": Object {
+          "Ref": "linebotnewVpcLineBotPublicSubnetSubnet1Subnet34375F40",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "linebotnewVpcLineBotPublicSubnetSubnet1Subnet34375F40": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            0,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.0.0.0/17",
+        "MapPublicIpOnLaunch": true,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "LineBot-Public-Subnet",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "test/linebot/newVpc/LineBot-Public-SubnetSubnet1",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "linebotnewVpc05AFBD53",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "linebotnewVpcLineBotPublicSubnetSubnet2DefaultRouteA41C2083": Object {
+      "DependsOn": Array [
+        "linebotnewVpcVPCGW2A301A36",
+      ],
+      "Properties": Object {
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": Object {
+          "Ref": "linebotnewVpcIGWF5342BAA",
+        },
+        "RouteTableId": Object {
+          "Ref": "linebotnewVpcLineBotPublicSubnetSubnet2RouteTable5E71AB95",
+        },
+      },
+      "Type": "AWS::EC2::Route",
+    },
+    "linebotnewVpcLineBotPublicSubnetSubnet2RouteTable5E71AB95": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "test/linebot/newVpc/LineBot-Public-SubnetSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "linebotnewVpc05AFBD53",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "linebotnewVpcLineBotPublicSubnetSubnet2RouteTableAssociationE5FDAED4": Object {
+      "Properties": Object {
+        "RouteTableId": Object {
+          "Ref": "linebotnewVpcLineBotPublicSubnetSubnet2RouteTable5E71AB95",
+        },
+        "SubnetId": Object {
+          "Ref": "linebotnewVpcLineBotPublicSubnetSubnet2Subnet6DF96531",
+        },
+      },
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+    },
+    "linebotnewVpcLineBotPublicSubnetSubnet2Subnet6DF96531": Object {
+      "Properties": Object {
+        "AvailabilityZone": Object {
+          "Fn::Select": Array [
+            1,
+            Object {
+              "Fn::GetAZs": "",
+            },
+          ],
+        },
+        "CidrBlock": "10.0.128.0/17",
+        "MapPublicIpOnLaunch": true,
+        "Tags": Array [
+          Object {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "LineBot-Public-Subnet",
+          },
+          Object {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public",
+          },
+          Object {
+            "Key": "Name",
+            "Value": "test/linebot/newVpc/LineBot-Public-SubnetSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "linebotnewVpc05AFBD53",
+        },
+      },
+      "Type": "AWS::EC2::Subnet",
+    },
+    "linebotnewVpcVPCGW2A301A36": Object {
+      "Properties": Object {
+        "InternetGatewayId": Object {
+          "Ref": "linebotnewVpcIGWF5342BAA",
+        },
+        "VpcId": Object {
+          "Ref": "linebotnewVpc05AFBD53",
+        },
+      },
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+    },
+    "linebotstepnLinebotARecord0E291FA1": Object {
+      "Properties": Object {
+        "AliasTarget": Object {
+          "DNSName": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "dualstack.",
+                Object {
+                  "Fn::GetAtt": Array [
+                    "linebotbotsvcLB688EB348",
+                    "DNSName",
+                  ],
+                },
+              ],
+            ],
+          },
+          "HostedZoneId": Object {
+            "Fn::GetAtt": Array [
+              "linebotbotsvcLB688EB348",
+              "CanonicalHostedZoneID",
+            ],
+          },
+        },
+        "HostedZoneId": "mock",
+        "Name": "stepn-linebot.mock.",
+        "Type": "A",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "linebotstepnlinecaED0CDF09": Object {
+      "Properties": Object {
+        "DomainName": "stepn-linebot.mock",
+        "DomainValidationOptions": Array [
+          Object {
+            "DomainName": "stepn-linebot.mock",
+            "HostedZoneId": "mock",
+          },
+        ],
+        "ValidationMethod": "DNS",
+      },
+      "Type": "AWS::CertificateManager::Certificate",
+    },
+    "linebottasksB59B746D": Object {
+      "Properties": Object {
+        "ContainerDefinitions": Array [
+          Object {
+            "Environment": Array [
+              Object {
+                "Name": "CHANNEL_ACCESS_TOKEN",
+                "Value": "mock",
+              },
+              Object {
+                "Name": "CHANNEL_SECRET",
+                "Value": "mock",
+              },
+            ],
+            "Essential": true,
+            "Image": Object {
+              "Fn::Sub": "\${AWS::AccountId}.dkr.ecr.\${AWS::Region}.\${AWS::URLSuffix}/cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}:b01653639cc1e62ed48c41bf88b7917d0653bb2dfd9dcce66e9e034c935d5fc0",
+            },
+            "LogConfiguration": Object {
+              "LogDriver": "awslogs",
+              "Options": Object {
+                "awslogs-group": Object {
+                  "Ref": "linebottaskslinebotLogGroupF2B8A251",
+                },
+                "awslogs-region": Object {
+                  "Ref": "AWS::Region",
+                },
+                "awslogs-stream-prefix": "linebot",
+              },
+            },
+            "Name": "linebot",
+            "PortMappings": Array [
+              Object {
+                "ContainerPort": 5000,
+                "Protocol": "tcp",
+              },
+            ],
+          },
+        ],
+        "Cpu": "256",
+        "ExecutionRoleArn": Object {
+          "Fn::GetAtt": Array [
+            "linebottasksExecutionRole49289234",
+            "Arn",
+          ],
+        },
+        "Family": "testlinebottasksA584862C",
+        "Memory": "512",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": Array [
+          "FARGATE",
+        ],
+        "RuntimePlatform": Object {
+          "CpuArchitecture": "X86_64",
+          "OperatingSystemFamily": "LINUX",
+        },
+        "TaskRoleArn": Object {
+          "Fn::GetAtt": Array [
+            "linebottasksTaskRoleD1576B2A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ECS::TaskDefinition",
+    },
+    "linebottasksExecutionRole49289234": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "linebottasksExecutionRoleDefaultPolicy7337303D": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":ecr:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":repository/",
+                    Object {
+                      "Fn::Sub": "cdk-hnb659fds-container-assets-\${AWS::AccountId}-\${AWS::Region}",
+                    },
+                  ],
+                ],
+              },
+            },
+            Object {
+              "Action": "ecr:GetAuthorizationToken",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
+              "Action": Array [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "linebottaskslinebotLogGroupF2B8A251",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "linebottasksExecutionRoleDefaultPolicy7337303D",
+        "Roles": Array [
+          Object {
+            "Ref": "linebottasksExecutionRole49289234",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "linebottasksTaskRoleD1576B2A": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "linebottaskslinebotLogGroupF2B8A251": Object {
+      "DeletionPolicy": "Retain",
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+    },
+  },
+  "Rules": Object {
+    "CheckBootstrapVersion": Object {
+      "Assertions": Array [
+        Object {
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Contains": Array [
+                  Array [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  Object {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;
