@@ -20,4 +20,8 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   },
   minNodeVersion: '14.17.0',
 });
+
+project.package.addField('resolutions', {
+  '@types/prettier': '2.6.0',
+});
 project.synth();
