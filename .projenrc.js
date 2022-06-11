@@ -14,6 +14,9 @@ const project = new awscdk.AwsCdkTypeScriptApp({
       }),
     },
   },
+  devDeps: [
+    '@types/prettier@2.6.0',
+  ],
   autoApproveOptions: {
     secret: 'PROJEN_GITHUB_TOKEN',
     allowedUsernames: ['auto-machine', 'neilkuan'],
@@ -21,7 +24,4 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   minNodeVersion: '14.17.0',
 });
 
-project.package.addField('resolutions', {
-  '@types/prettier': '2.6.0',
-});
 project.synth();
