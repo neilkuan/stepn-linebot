@@ -3,15 +3,15 @@
 exports[`Snapshot 1`] = `
 Object {
   "Outputs": Object {
-    "linebotbotsvcLoadBalancerDNS8259196D": Object {
+    "testbotsvcLoadBalancerDNSCA2C4549": Object {
       "Value": Object {
         "Fn::GetAtt": Array [
-          "linebotbotsvcLB688EB348",
+          "testbotsvcLBC6A8FC31",
           "DNSName",
         ],
       },
     },
-    "linebotbotsvcServiceURLF0DAC68D": Object {
+    "testbotsvcServiceURL8E2CD71F": Object {
       "Value": Object {
         "Fn::Join": Array [
           "",
@@ -19,7 +19,7 @@ Object {
             "https://",
             Object {
               "Fn::GetAtt": Array [
-                "linebotbotsvcLB688EB348",
+                "testbotsvcLBC6A8FC31",
                 "DNSName",
               ],
             },
@@ -36,12 +36,14 @@ Object {
     },
   },
   "Resources": Object {
-    "linebotbotsvcLB688EB348": Object {
+    "testbotsvcLBC6A8FC31": Object {
       "DependsOn": Array [
-        "linebotcluster0FD85826",
-        "linebotcluster9F571DF5",
-        "linebotnewVpcLineBotPublicSubnetSubnet1DefaultRoute7C02F702",
-        "linebotnewVpcLineBotPublicSubnetSubnet2DefaultRouteA41C2083",
+        "testcluster7D0F2F95",
+        "testclusterDBD4D436",
+        "testnewVpcLineBotPublicSubnetSubnet1DefaultRouteE0DBEB84",
+        "testnewVpcLineBotPublicSubnetSubnet1RouteTableAssociation8AC6B923",
+        "testnewVpcLineBotPublicSubnetSubnet2DefaultRouteA418DC1E",
+        "testnewVpcLineBotPublicSubnetSubnet2RouteTableAssociation03726EEF",
       ],
       "Properties": Object {
         "LoadBalancerAttributes": Array [
@@ -54,56 +56,56 @@ Object {
         "SecurityGroups": Array [
           Object {
             "Fn::GetAtt": Array [
-              "linebotbotsvcLBSecurityGroupF75AD92A",
+              "testbotsvcLBSecurityGroup88B79D38",
               "GroupId",
             ],
           },
         ],
         "Subnets": Array [
           Object {
-            "Ref": "linebotnewVpcLineBotPublicSubnetSubnet1Subnet34375F40",
+            "Ref": "testnewVpcLineBotPublicSubnetSubnet1Subnet2A0618AF",
           },
           Object {
-            "Ref": "linebotnewVpcLineBotPublicSubnetSubnet2Subnet6DF96531",
+            "Ref": "testnewVpcLineBotPublicSubnetSubnet2Subnet50C63EA6",
           },
         ],
         "Type": "application",
       },
       "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
     },
-    "linebotbotsvcLBPublicListener69B9A67A": Object {
+    "testbotsvcLBPublicListener1C72B46B": Object {
       "DependsOn": Array [
-        "linebotcluster0FD85826",
-        "linebotcluster9F571DF5",
+        "testcluster7D0F2F95",
+        "testclusterDBD4D436",
       ],
       "Properties": Object {
         "Certificates": Array [
           Object {
             "CertificateArn": Object {
-              "Ref": "linebotstepnlinecaED0CDF09",
+              "Ref": "teststepnlinecaEB61F142",
             },
           },
         ],
         "DefaultActions": Array [
           Object {
             "TargetGroupArn": Object {
-              "Ref": "linebotbotsvcLBPublicListenerECSGroupCC0CB419",
+              "Ref": "testbotsvcLBPublicListenerECSGroupBFF8A2B0",
             },
             "Type": "forward",
           },
         ],
         "LoadBalancerArn": Object {
-          "Ref": "linebotbotsvcLB688EB348",
+          "Ref": "testbotsvcLBC6A8FC31",
         },
         "Port": 443,
         "Protocol": "HTTPS",
       },
       "Type": "AWS::ElasticLoadBalancingV2::Listener",
     },
-    "linebotbotsvcLBPublicListenerECSGroupCC0CB419": Object {
+    "testbotsvcLBPublicListenerECSGroupBFF8A2B0": Object {
       "DependsOn": Array [
-        "linebotcluster0FD85826",
-        "linebotcluster9F571DF5",
+        "testcluster7D0F2F95",
+        "testclusterDBD4D436",
       ],
       "Properties": Object {
         "Port": 80,
@@ -116,15 +118,15 @@ Object {
         ],
         "TargetType": "ip",
         "VpcId": Object {
-          "Ref": "linebotnewVpc05AFBD53",
+          "Ref": "testnewVpc007A0578",
         },
       },
       "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
     },
-    "linebotbotsvcLBPublicRedirectListener4C08B8BA": Object {
+    "testbotsvcLBPublicRedirectListener3BD403D9": Object {
       "DependsOn": Array [
-        "linebotcluster0FD85826",
-        "linebotcluster9F571DF5",
+        "testcluster7D0F2F95",
+        "testclusterDBD4D436",
       ],
       "Properties": Object {
         "DefaultActions": Array [
@@ -138,20 +140,20 @@ Object {
           },
         ],
         "LoadBalancerArn": Object {
-          "Ref": "linebotbotsvcLB688EB348",
+          "Ref": "testbotsvcLBC6A8FC31",
         },
         "Port": 80,
         "Protocol": "HTTP",
       },
       "Type": "AWS::ElasticLoadBalancingV2::Listener",
     },
-    "linebotbotsvcLBSecurityGroupF75AD92A": Object {
+    "testbotsvcLBSecurityGroup88B79D38": Object {
       "DependsOn": Array [
-        "linebotcluster0FD85826",
-        "linebotcluster9F571DF5",
+        "testcluster7D0F2F95",
+        "testclusterDBD4D436",
       ],
       "Properties": Object {
-        "GroupDescription": "Automatically created Security Group for ELB testlinebotbotsvcLB24F65E48",
+        "GroupDescription": "Automatically created Security Group for ELB testbotsvcLBDAF8F6D6",
         "SecurityGroupIngress": Array [
           Object {
             "CidrIp": "0.0.0.0/0",
@@ -169,28 +171,28 @@ Object {
           },
         ],
         "VpcId": Object {
-          "Ref": "linebotnewVpc05AFBD53",
+          "Ref": "testnewVpc007A0578",
         },
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "linebotbotsvcLBSecurityGrouptotestlinebotbotsvcServiceSecurityGroup19ECB7B350008D93AF3A": Object {
+    "testbotsvcLBSecurityGrouptotestbotsvcServiceSecurityGroup8580FCCA50005C12DBFB": Object {
       "DependsOn": Array [
-        "linebotcluster0FD85826",
-        "linebotcluster9F571DF5",
+        "testcluster7D0F2F95",
+        "testclusterDBD4D436",
       ],
       "Properties": Object {
         "Description": "Load balancer to target",
         "DestinationSecurityGroupId": Object {
           "Fn::GetAtt": Array [
-            "linebotbotsvcServiceSecurityGroup32EEDBA2",
+            "testbotsvcServiceSecurityGroup076F5BF6",
             "GroupId",
           ],
         },
         "FromPort": 5000,
         "GroupId": Object {
           "Fn::GetAtt": Array [
-            "linebotbotsvcLBSecurityGroupF75AD92A",
+            "testbotsvcLBSecurityGroup88B79D38",
             "GroupId",
           ],
         },
@@ -199,12 +201,12 @@ Object {
       },
       "Type": "AWS::EC2::SecurityGroupEgress",
     },
-    "linebotbotsvcServiceDA11F768": Object {
+    "testbotsvcServiceB37236BE": Object {
       "DependsOn": Array [
-        "linebotbotsvcLBPublicListenerECSGroupCC0CB419",
-        "linebotbotsvcLBPublicListener69B9A67A",
-        "linebotcluster0FD85826",
-        "linebotcluster9F571DF5",
+        "testbotsvcLBPublicListenerECSGroupBFF8A2B0",
+        "testbotsvcLBPublicListener1C72B46B",
+        "testcluster7D0F2F95",
+        "testclusterDBD4D436",
       ],
       "Properties": Object {
         "CapacityProviderStrategy": Array [
@@ -215,7 +217,7 @@ Object {
           },
         ],
         "Cluster": Object {
-          "Ref": "linebotcluster9F571DF5",
+          "Ref": "testclusterDBD4D436",
         },
         "DeploymentConfiguration": Object {
           "MaximumPercent": 200,
@@ -228,7 +230,7 @@ Object {
             "ContainerName": "linebot",
             "ContainerPort": 5000,
             "TargetGroupArn": Object {
-              "Ref": "linebotbotsvcLBPublicListenerECSGroupCC0CB419",
+              "Ref": "testbotsvcLBPublicListenerECSGroupBFF8A2B0",
             },
           },
         ],
@@ -238,17 +240,17 @@ Object {
             "SecurityGroups": Array [
               Object {
                 "Fn::GetAtt": Array [
-                  "linebotbotsvcServiceSecurityGroup32EEDBA2",
+                  "testbotsvcServiceSecurityGroup076F5BF6",
                   "GroupId",
                 ],
               },
             ],
             "Subnets": Array [
               Object {
-                "Ref": "linebotnewVpcLineBotPublicSubnetSubnet1Subnet34375F40",
+                "Ref": "testnewVpcLineBotPublicSubnetSubnet1Subnet2A0618AF",
               },
               Object {
-                "Ref": "linebotnewVpcLineBotPublicSubnetSubnet2Subnet6DF96531",
+                "Ref": "testnewVpcLineBotPublicSubnetSubnet2Subnet50C63EA6",
               },
             ],
           },
@@ -256,18 +258,18 @@ Object {
         "PlatformVersion": "LATEST",
         "ServiceName": "line-bot",
         "TaskDefinition": Object {
-          "Ref": "linebottasksB59B746D",
+          "Ref": "testtasks6AE183F7",
         },
       },
       "Type": "AWS::ECS::Service",
     },
-    "linebotbotsvcServiceSecurityGroup32EEDBA2": Object {
+    "testbotsvcServiceSecurityGroup076F5BF6": Object {
       "DependsOn": Array [
-        "linebotcluster0FD85826",
-        "linebotcluster9F571DF5",
+        "testcluster7D0F2F95",
+        "testclusterDBD4D436",
       ],
       "Properties": Object {
-        "GroupDescription": "test/linebot/botsvc/Service/SecurityGroup",
+        "GroupDescription": "test/test/botsvc/Service/SecurityGroup",
         "SecurityGroupEgress": Array [
           Object {
             "CidrIp": "0.0.0.0/0",
@@ -276,29 +278,29 @@ Object {
           },
         ],
         "VpcId": Object {
-          "Ref": "linebotnewVpc05AFBD53",
+          "Ref": "testnewVpc007A0578",
         },
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "linebotbotsvcServiceSecurityGroupfromtestlinebotbotsvcLBSecurityGroup2B80E4B3500000C1BE53": Object {
+    "testbotsvcServiceSecurityGroupfromtestbotsvcLBSecurityGroup90403D7F500022CF42BE": Object {
       "DependsOn": Array [
-        "linebotcluster0FD85826",
-        "linebotcluster9F571DF5",
+        "testcluster7D0F2F95",
+        "testclusterDBD4D436",
       ],
       "Properties": Object {
         "Description": "Load balancer to target",
         "FromPort": 5000,
         "GroupId": Object {
           "Fn::GetAtt": Array [
-            "linebotbotsvcServiceSecurityGroup32EEDBA2",
+            "testbotsvcServiceSecurityGroup076F5BF6",
             "GroupId",
           ],
         },
         "IpProtocol": "tcp",
         "SourceSecurityGroupId": Object {
           "Fn::GetAtt": Array [
-            "linebotbotsvcLBSecurityGroupF75AD92A",
+            "testbotsvcLBSecurityGroup88B79D38",
             "GroupId",
           ],
         },
@@ -306,26 +308,26 @@ Object {
       },
       "Type": "AWS::EC2::SecurityGroupIngress",
     },
-    "linebotcluster0FD85826": Object {
+    "testcluster7D0F2F95": Object {
       "Properties": Object {
         "CapacityProviders": Array [
           "FARGATE",
           "FARGATE_SPOT",
         ],
         "Cluster": Object {
-          "Ref": "linebotcluster9F571DF5",
+          "Ref": "testclusterDBD4D436",
         },
         "DefaultCapacityProviderStrategy": Array [],
       },
       "Type": "AWS::ECS::ClusterCapacityProviderAssociations",
     },
-    "linebotcluster9F571DF5": Object {
+    "testclusterDBD4D436": Object {
       "Properties": Object {
         "ClusterName": "LineBot",
       },
       "Type": "AWS::ECS::Cluster",
     },
-    "linebotnewVpc05AFBD53": Object {
+    "testnewVpc007A0578": Object {
       "Properties": Object {
         "CidrBlock": "10.0.0.0/16",
         "EnableDnsHostnames": true,
@@ -334,64 +336,64 @@ Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "test/linebot/newVpc",
+            "Value": "test/test/newVpc",
           },
         ],
       },
       "Type": "AWS::EC2::VPC",
     },
-    "linebotnewVpcIGWF5342BAA": Object {
+    "testnewVpcIGW617ABD79": Object {
       "Properties": Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "test/linebot/newVpc",
+            "Value": "test/test/newVpc",
           },
         ],
       },
       "Type": "AWS::EC2::InternetGateway",
     },
-    "linebotnewVpcLineBotPublicSubnetSubnet1DefaultRoute7C02F702": Object {
+    "testnewVpcLineBotPublicSubnetSubnet1DefaultRouteE0DBEB84": Object {
       "DependsOn": Array [
-        "linebotnewVpcVPCGW2A301A36",
+        "testnewVpcVPCGW2C4B2F70",
       ],
       "Properties": Object {
         "DestinationCidrBlock": "0.0.0.0/0",
         "GatewayId": Object {
-          "Ref": "linebotnewVpcIGWF5342BAA",
+          "Ref": "testnewVpcIGW617ABD79",
         },
         "RouteTableId": Object {
-          "Ref": "linebotnewVpcLineBotPublicSubnetSubnet1RouteTable2E6F3CEE",
+          "Ref": "testnewVpcLineBotPublicSubnetSubnet1RouteTable04D7C34D",
         },
       },
       "Type": "AWS::EC2::Route",
     },
-    "linebotnewVpcLineBotPublicSubnetSubnet1RouteTable2E6F3CEE": Object {
+    "testnewVpcLineBotPublicSubnetSubnet1RouteTable04D7C34D": Object {
       "Properties": Object {
         "Tags": Array [
           Object {
             "Key": "Name",
-            "Value": "test/linebot/newVpc/LineBot-Public-SubnetSubnet1",
+            "Value": "test/test/newVpc/LineBot-Public-SubnetSubnet1",
           },
         ],
         "VpcId": Object {
-          "Ref": "linebotnewVpc05AFBD53",
+          "Ref": "testnewVpc007A0578",
         },
       },
       "Type": "AWS::EC2::RouteTable",
     },
-    "linebotnewVpcLineBotPublicSubnetSubnet1RouteTableAssociationD42334A8": Object {
+    "testnewVpcLineBotPublicSubnetSubnet1RouteTableAssociation8AC6B923": Object {
       "Properties": Object {
         "RouteTableId": Object {
-          "Ref": "linebotnewVpcLineBotPublicSubnetSubnet1RouteTable2E6F3CEE",
+          "Ref": "testnewVpcLineBotPublicSubnetSubnet1RouteTable04D7C34D",
         },
         "SubnetId": Object {
-          "Ref": "linebotnewVpcLineBotPublicSubnetSubnet1Subnet34375F40",
+          "Ref": "testnewVpcLineBotPublicSubnetSubnet1Subnet2A0618AF",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "linebotnewVpcLineBotPublicSubnetSubnet1Subnet34375F40": Object {
+    "testnewVpcLineBotPublicSubnetSubnet1Subnet2A0618AF": Object {
       "Properties": Object {
         "AvailabilityZone": Object {
           "Fn::Select": Array [
@@ -414,56 +416,56 @@ Object {
           },
           Object {
             "Key": "Name",
-            "Value": "test/linebot/newVpc/LineBot-Public-SubnetSubnet1",
+            "Value": "test/test/newVpc/LineBot-Public-SubnetSubnet1",
           },
         ],
         "VpcId": Object {
-          "Ref": "linebotnewVpc05AFBD53",
+          "Ref": "testnewVpc007A0578",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "linebotnewVpcLineBotPublicSubnetSubnet2DefaultRouteA41C2083": Object {
+    "testnewVpcLineBotPublicSubnetSubnet2DefaultRouteA418DC1E": Object {
       "DependsOn": Array [
-        "linebotnewVpcVPCGW2A301A36",
+        "testnewVpcVPCGW2C4B2F70",
       ],
       "Properties": Object {
         "DestinationCidrBlock": "0.0.0.0/0",
         "GatewayId": Object {
-          "Ref": "linebotnewVpcIGWF5342BAA",
+          "Ref": "testnewVpcIGW617ABD79",
         },
         "RouteTableId": Object {
-          "Ref": "linebotnewVpcLineBotPublicSubnetSubnet2RouteTable5E71AB95",
+          "Ref": "testnewVpcLineBotPublicSubnetSubnet2RouteTableB911AB70",
         },
       },
       "Type": "AWS::EC2::Route",
     },
-    "linebotnewVpcLineBotPublicSubnetSubnet2RouteTable5E71AB95": Object {
-      "Properties": Object {
-        "Tags": Array [
-          Object {
-            "Key": "Name",
-            "Value": "test/linebot/newVpc/LineBot-Public-SubnetSubnet2",
-          },
-        ],
-        "VpcId": Object {
-          "Ref": "linebotnewVpc05AFBD53",
-        },
-      },
-      "Type": "AWS::EC2::RouteTable",
-    },
-    "linebotnewVpcLineBotPublicSubnetSubnet2RouteTableAssociationE5FDAED4": Object {
+    "testnewVpcLineBotPublicSubnetSubnet2RouteTableAssociation03726EEF": Object {
       "Properties": Object {
         "RouteTableId": Object {
-          "Ref": "linebotnewVpcLineBotPublicSubnetSubnet2RouteTable5E71AB95",
+          "Ref": "testnewVpcLineBotPublicSubnetSubnet2RouteTableB911AB70",
         },
         "SubnetId": Object {
-          "Ref": "linebotnewVpcLineBotPublicSubnetSubnet2Subnet6DF96531",
+          "Ref": "testnewVpcLineBotPublicSubnetSubnet2Subnet50C63EA6",
         },
       },
       "Type": "AWS::EC2::SubnetRouteTableAssociation",
     },
-    "linebotnewVpcLineBotPublicSubnetSubnet2Subnet6DF96531": Object {
+    "testnewVpcLineBotPublicSubnetSubnet2RouteTableB911AB70": Object {
+      "Properties": Object {
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "test/test/newVpc/LineBot-Public-SubnetSubnet2",
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "testnewVpc007A0578",
+        },
+      },
+      "Type": "AWS::EC2::RouteTable",
+    },
+    "testnewVpcLineBotPublicSubnetSubnet2Subnet50C63EA6": Object {
       "Properties": Object {
         "AvailabilityZone": Object {
           "Fn::Select": Array [
@@ -486,27 +488,27 @@ Object {
           },
           Object {
             "Key": "Name",
-            "Value": "test/linebot/newVpc/LineBot-Public-SubnetSubnet2",
+            "Value": "test/test/newVpc/LineBot-Public-SubnetSubnet2",
           },
         ],
         "VpcId": Object {
-          "Ref": "linebotnewVpc05AFBD53",
+          "Ref": "testnewVpc007A0578",
         },
       },
       "Type": "AWS::EC2::Subnet",
     },
-    "linebotnewVpcVPCGW2A301A36": Object {
+    "testnewVpcVPCGW2C4B2F70": Object {
       "Properties": Object {
         "InternetGatewayId": Object {
-          "Ref": "linebotnewVpcIGWF5342BAA",
+          "Ref": "testnewVpcIGW617ABD79",
         },
         "VpcId": Object {
-          "Ref": "linebotnewVpc05AFBD53",
+          "Ref": "testnewVpc007A0578",
         },
       },
       "Type": "AWS::EC2::VPCGatewayAttachment",
     },
-    "linebotstepnLinebotARecord0E291FA1": Object {
+    "teststepnLinebotARecord99CCC7B3": Object {
       "Properties": Object {
         "AliasTarget": Object {
           "DNSName": Object {
@@ -516,7 +518,7 @@ Object {
                 "dualstack.",
                 Object {
                   "Fn::GetAtt": Array [
-                    "linebotbotsvcLB688EB348",
+                    "testbotsvcLBC6A8FC31",
                     "DNSName",
                   ],
                 },
@@ -525,31 +527,31 @@ Object {
           },
           "HostedZoneId": Object {
             "Fn::GetAtt": Array [
-              "linebotbotsvcLB688EB348",
+              "testbotsvcLBC6A8FC31",
               "CanonicalHostedZoneID",
             ],
           },
         },
-        "HostedZoneId": "mock",
-        "Name": "stepn-linebot.mock.",
+        "HostedZoneId": "XXXXXXXXXXXXX",
+        "Name": "stepnlinebot.example.com.",
         "Type": "A",
       },
       "Type": "AWS::Route53::RecordSet",
     },
-    "linebotstepnlinecaED0CDF09": Object {
+    "teststepnlinecaEB61F142": Object {
       "Properties": Object {
-        "DomainName": "stepn-linebot.mock",
+        "DomainName": "stepn-linebot.example.com",
         "DomainValidationOptions": Array [
           Object {
-            "DomainName": "stepn-linebot.mock",
-            "HostedZoneId": "mock",
+            "DomainName": "stepn-linebot.example.com",
+            "HostedZoneId": "XXXXXXXXXXXXX",
           },
         ],
         "ValidationMethod": "DNS",
       },
       "Type": "AWS::CertificateManager::Certificate",
     },
-    "linebottasksB59B746D": Object {
+    "testtasks6AE183F7": Object {
       "Properties": Object {
         "ContainerDefinitions": Array [
           Object {
@@ -571,7 +573,7 @@ Object {
               "LogDriver": "awslogs",
               "Options": Object {
                 "awslogs-group": Object {
-                  "Ref": "linebottaskslinebotLogGroupF2B8A251",
+                  "Ref": "testtaskslinebotLogGroup5E78956A",
                 },
                 "awslogs-region": Object {
                   "Ref": "AWS::Region",
@@ -591,11 +593,11 @@ Object {
         "Cpu": "256",
         "ExecutionRoleArn": Object {
           "Fn::GetAtt": Array [
-            "linebottasksExecutionRole49289234",
+            "testtasksExecutionRole2F24D26D",
             "Arn",
           ],
         },
-        "Family": "testlinebottasksA584862C",
+        "Family": "testtasks01D96284",
         "Memory": "512",
         "NetworkMode": "awsvpc",
         "RequiresCompatibilities": Array [
@@ -607,14 +609,14 @@ Object {
         },
         "TaskRoleArn": Object {
           "Fn::GetAtt": Array [
-            "linebottasksTaskRoleD1576B2A",
+            "testtasksTaskRoleF44277A5",
             "Arn",
           ],
         },
       },
       "Type": "AWS::ECS::TaskDefinition",
     },
-    "linebottasksExecutionRole49289234": Object {
+    "testtasksExecutionRole2F24D26D": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -631,7 +633,7 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "linebottasksExecutionRoleDefaultPolicy7337303D": Object {
+    "testtasksExecutionRoleDefaultPolicyE03DD317": Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
@@ -679,7 +681,7 @@ Object {
               "Effect": "Allow",
               "Resource": Object {
                 "Fn::GetAtt": Array [
-                  "linebottaskslinebotLogGroupF2B8A251",
+                  "testtaskslinebotLogGroup5E78956A",
                   "Arn",
                 ],
               },
@@ -687,16 +689,16 @@ Object {
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "linebottasksExecutionRoleDefaultPolicy7337303D",
+        "PolicyName": "testtasksExecutionRoleDefaultPolicyE03DD317",
         "Roles": Array [
           Object {
-            "Ref": "linebottasksExecutionRole49289234",
+            "Ref": "testtasksExecutionRole2F24D26D",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "linebottasksTaskRoleD1576B2A": Object {
+    "testtasksTaskRoleF44277A5": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -713,7 +715,7 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "linebottaskslinebotLogGroupF2B8A251": Object {
+    "testtaskslinebotLogGroup5E78956A": Object {
       "DeletionPolicy": "Retain",
       "Type": "AWS::Logs::LogGroup",
       "UpdateReplacePolicy": "Retain",

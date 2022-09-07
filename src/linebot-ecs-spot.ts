@@ -49,9 +49,9 @@ export class LineBot extends Construct {
       },
       portMappings: [{ containerPort: 5000 }],
     });
-    const hostZone = route53.HostedZone.fromHostedZoneAttributes(this, 'hostZone', {
-      zoneName: this.node.tryGetContext('STEPN_LINE_BOT_ZONE') ?? process.env.STEPN_LINE_BOT_ZONE,
-      hostedZoneId: this.node.tryGetContext('STEPN_LINE_BOT_ZONE_ID') ?? process.env.STEPN_LINE_BOT_ZONE_ID,
+    const hostZone = route53.PublicHostedZone.fromPublicHostedZoneAttributes(this, 'hostZone', {
+      zoneName: this.node.tryGetContext('STEPN_LINE_BOT_ZONE') ?? process.env.STEPN_LINE_BOT_ZONE ?? 'mock',
+      hostedZoneId: this.node.tryGetContext('STEPN_LINE_BOT_ZONE_ID') ?? process.env.STEPN_LINE_BOT_ZONE_ID ?? 'mock',
     });
     const domainName = this.node.tryGetContext('STEPN_LINE_BOT_ZONE') ? `stepn-linebot.${this.node.tryGetContext('STEPN_LINE_BOT_ZONE')}` : process.env.STEPN_LINE_BOT_ZONE ? `stepn-linebot.${process.env.STEPN_LINE_BOT_ZONE}`: 'mock';
     const certificate = new certificatemanager.Certificate(this, 'stepn-line-ca', {
@@ -75,21 +75,17 @@ export class LineBot extends Construct {
       platformVersion: ecs.FargatePlatformVersion.LATEST,
       certificate,
       redirectHTTP: true,
+      capacityProviderStrategies: [{
+        capacityProvider: 'FARGATE_SPOT',
+        base: 1,
+        weight: 1,
+      }],
     });
     new route53.ARecord(this, 'stepnLinebotARecord', {
       zone: hostZone,
       target: route53.RecordTarget.fromAlias(new route53t.LoadBalancerTarget(botsvc.loadBalancer)),
-      recordName: 'stepn-linebot',
+      recordName: 'stepnlinebot',
     });
-    const svc = (botsvc.node.tryFindChild('Service')?.node.defaultChild as ecs.CfnService);
-    svc.addPropertyOverride(
-      'CapacityProviderStrategy', [{
-        CapacityProvider: 'FARGATE_SPOT',
-        Base: 1,
-        Weight: 1,
-      }],
-    );
-    svc.addPropertyDeletionOverride('LaunchType');
 
     botsvc.node.addDependency(this.node.tryFindChild('cluster') as ecs.CfnClusterCapacityProviderAssociations);
   }
