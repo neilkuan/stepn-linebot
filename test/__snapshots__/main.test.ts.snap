@@ -547,6 +547,12 @@ Object {
             "HostedZoneId": "XXXXXXXXXXXXX",
           },
         ],
+        "Tags": Array [
+          Object {
+            "Key": "Name",
+            "Value": "test/test/stepn-line-ca",
+          },
+        ],
         "ValidationMethod": "DNS",
       },
       "Type": "AWS::CertificateManager::Certificate",
