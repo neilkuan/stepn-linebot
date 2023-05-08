@@ -17,7 +17,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     secret: 'PROJEN_GITHUB_TOKEN',
     allowedUsernames: ['auto-machine', 'neilkuan'],
   },
-  minNodeVersion: '14.17.0',
+  workflowNodeVersion: '^16.20.0',
   typescriptVersion: '3.9.10',
 });
 
